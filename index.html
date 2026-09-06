@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth overflow-x-hidden">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twiner | Разработка премиальных сайтов</title>
+
+    <!-- Подключение шрифта Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Подключение Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Настройка Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f4f7fc',
+                            100: '#e8eef8',
+                            200: '#cddcf1',
+                            300: '#a3beec',
+                            400: '#739be0',
+                            500: '#5a83c7', /* Основной цвет #5a83c7 */
+                            600: '#4368ab',
+                            700: '#36538b',
+                            800: '#2f4572',
+                            900: '#1b263b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Предотвращение горизонтального скролла на всех устройствах */
+        html,
+        body {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
+        /* Кастомные стили для микро-анимаций и плавности */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-gradient-to-b from-[#5a83c7] via-[#e8eef8] to-white text-slate-800 antialiased selection:bg-[#5a83c7] selection:text-white min-h-screen overflow-x-hidden relative">
+
+    <!-- Шапка (Header) -->
+    <header
+        class="fixed top-0 left-0 right-0 w-full z-50 glass-nav border-b border-white/60 transition-all duration-300 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Логотип -->
+                <a href="#" class="flex items-center gap-2.5 group">
+                    <div
+                        class="w-9 h-9 bg-[#5a83c7] border border-white/40 rounded-xl flex items-center justify-center group-hover:bg-[#4368ab] group-hover:scale-105 transition-all duration-300 shadow-sm text-white">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                        </svg>
+                    </div>
+                    <span
+                        class="font-bold text-xl tracking-tight text-slate-900 group-hover:text-slate-950 transition-colors duration-200">Twiner.</span>
+                </a>
+
+                <!-- Десктопная навигация -->
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="#portfolio"
+                        class="text-sm font-medium text-slate-700 hover:text-[#5a83c7] transition-colors duration-200">Работы</a>
+                    <a href="#services"
+                        class="text-sm font-medium text-slate-700 hover:text-[#5a83c7] transition-colors duration-200">Услуги
+                        и условия</a>
+                    <a href="#contact"
+                        class="text-sm font-medium text-slate-700 hover:text-[#5a83c7] transition-colors duration-200">Контакты</a>
+                </nav>
+
+                <!-- CTA Кнопка и Гамбургер -->
+                <div class="flex items-center gap-4">
+                    <a href="#contact"
+                        class="hidden md:inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-white bg-[#5a83c7] hover:bg-[#4368ab] border border-white/30 rounded-full hover:scale-105 active:scale-95 transition-all duration-300 shadow-md shadow-[#5a83c7]/20">
+                        Обсудить проект
+                    </a>
+                    <button id="mobile-menu-btn"
+                        class="md:hidden p-2 text-slate-700 hover:text-slate-950 transition-colors duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5a83c7]/40"
+                        aria-label="Открыть меню" aria-expanded="false">
+                        <svg id="icon-menu" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Мобильное меню -->
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-white/95 backdrop-blur-md border-t border-slate-100 absolute w-full left-0 top-full shadow-xl transition-all duration-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 space-y-1 flex flex-col">
+                <a href="#portfolio"
+                    class="mobile-link block px-4 py-3 text-base font-medium text-slate-700 hover:text-[#5a83c7] hover:bg-slate-50 rounded-xl transition-colors duration-200">Работы</a>
+                <a href="#services"
+                    class="mobile-link block px-4 py-3 text-base font-medium text-slate-700 hover:text-[#5a83c7] hover:bg-slate-50 rounded-xl transition-colors duration-200">Услуги
+                    и условия</a>
+                <a href="#contact"
+                    class="mobile-link block px-4 py-3 text-base font-medium text-slate-700 hover:text-[#5a83c7] hover:bg-slate-50 rounded-xl transition-colors duration-200">Контакты</a>
+                <a href="#contact"
+                    class="mobile-link mt-3 flex items-center justify-center w-full px-6 py-3.5 text-base font-semibold text-white bg-[#5a83c7] hover:bg-[#4368ab] rounded-xl transition-colors duration-200 shadow-md shadow-[#5a83c7]/20">
+                    Обсудить проект
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="overflow-x-hidden">
+        <!-- Первый экран (Hero Section) -->
+        <section class="relative pt-28 pb-16 sm:pt-36 sm:pb-24 md:pt-40 md:pb-28 lg:pt-44 lg:pb-32 overflow-hidden">
+            <!-- Декоративные свечения -->
+            <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+                <div class="absolute top-10 left-1/4 w-72 sm:w-96 h-72 sm:h-96 bg-white/30 rounded-full blur-3xl"></div>
+                <div
+                    class="absolute top-20 right-5 sm:right-10 w-64 sm:w-80 h-64 sm:h-80 bg-[#a3beec]/40 rounded-full blur-3xl">
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 xl:gap-12 items-center">
+
+                    <!-- Текстовая часть -->
+                    <div class="max-w-2xl">
+                        <div
+                            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/70 border border-white/80 text-xs sm:text-sm font-medium text-slate-900 mb-6 backdrop-blur-md shadow-sm">
+                            <span class="relative flex h-2 w-2 shrink-0">
+                                <span
+                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                            </span>
+                            Доступны для новых проектов
+                        </div>
+                        <h1
+                            class="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold tracking-tight leading-[1.15] text-slate-950 mb-6">
+                            Создаем <span class="text-white drop-shadow-sm">конверсионные</span> веб-продукты
+                        </h1>
+                        <p
+                            class="text-base sm:text-lg md:text-xl text-slate-900/90 mb-8 leading-relaxed max-w-xl font-normal">
+                            Студия <span class="font-semibold text-slate-950">Twiner</span> проектирует и разрабатывает
+                            сайты под ключ: от глубокой аналитики и премиального UI/UX дизайна до современного кода.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <a href="#portfolio"
+                                class="inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-[#5a83c7] hover:bg-[#4368ab] border border-white/40 rounded-full hover:scale-105 active:scale-95 transition-all duration-300 shadow-lg shadow-[#5a83c7]/25 text-center">
+                                Смотреть работы
+                            </a>
+                            <a href="#contact"
+                                class="inline-flex items-center justify-center px-8 py-3.5 text-base font-medium text-slate-800 bg-white/80 hover:bg-white border border-white/90 rounded-full hover:text-slate-950 hover:scale-105 active:scale-95 transition-all duration-300 shadow-sm backdrop-blur-sm text-center">
+                                Связаться с нами
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Визуальный блок-заглушка (Premium UI Mockup) -->
+                    <div
+                        class="relative w-full aspect-square sm:aspect-[4/3] lg:aspect-auto lg:h-[540px] xl:h-[600px] bg-white/80 backdrop-blur-xl rounded-3xl sm:rounded-[2rem] border border-white shadow-[0_20px_50px_-12px_rgba(27,38,59,0.15)] overflow-hidden flex items-center justify-center p-4 sm:p-6 transform lg:rotate-1 xl:rotate-2 hover:rotate-0 transition-transform duration-700 ease-out">
+                        <!-- Абстрактный интерфейс -->
+                        <div
+                            class="w-full h-full rounded-2xl border border-slate-200/80 bg-slate-50/70 flex flex-col overflow-hidden shadow-inner relative">
+                            <!-- Header UI -->
+                            <div
+                                class="h-10 sm:h-12 border-b border-slate-200/80 bg-white/80 flex items-center px-4 gap-3 shrink-0">
+                                <div class="flex gap-1.5 shrink-0">
+                                    <div class="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-slate-300"></div>
+                                    <div class="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-slate-300"></div>
+                                    <div class="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-slate-300"></div>
+                                </div>
+                                <div class="w-1/3 h-3.5 sm:h-4 bg-slate-200/80 rounded-full mx-auto"></div>
+                            </div>
+                            <!-- Body UI -->
+                            <div class="flex-1 p-4 sm:p-6 flex gap-4 sm:gap-6 overflow-hidden">
+                                <!-- Sidebar UI -->
+                                <div class="w-1/3 hidden sm:flex flex-col gap-3 sm:gap-4 shrink-0">
+                                    <div
+                                        class="w-full h-20 sm:h-24 bg-white rounded-xl border border-slate-200/60 shadow-sm">
+                                    </div>
+                                    <div class="w-3/4 h-3.5 sm:h-4 bg-slate-300/80 rounded-full"></div>
+                                    <div class="w-1/2 h-3.5 sm:h-4 bg-slate-200/80 rounded-full"></div>
+                                    <div class="w-5/6 h-3.5 sm:h-4 bg-slate-200/80 rounded-full"></div>
+                                </div>
+                                <!-- Main content UI -->
+                                <div class="flex-1 flex flex-col gap-3 sm:gap-4 min-w-0">
+                                    <div
+                                        class="w-full h-32 sm:h-40 bg-gradient-to-br from-[#5a83c7]/20 to-slate-100 rounded-xl border border-[#5a83c7]/20 shadow-sm relative overflow-hidden shrink-0">
+                                        <div
+                                            class="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 w-1/2 h-5 sm:h-6 bg-white/80 rounded-full backdrop-blur-sm">
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-3 sm:gap-4 flex-1">
+                                        <div
+                                            class="bg-white rounded-xl border border-slate-200/60 shadow-sm p-3 sm:p-4 flex flex-col gap-2.5 sm:gap-3 justify-end">
+                                            <div class="w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-[#5a83c7]/20 mb-auto">
+                                            </div>
+                                            <div class="w-full h-2 bg-slate-200/80 rounded-full"></div>
+                                            <div class="w-2/3 h-2 bg-slate-300/80 rounded-full"></div>
+                                        </div>
+                                        <div
+                                            class="bg-white rounded-xl border border-slate-200/60 shadow-sm p-3 sm:p-4 flex flex-col gap-2.5 sm:gap-3 justify-end">
+                                            <div class="w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-[#5a83c7] mb-auto"></div>
+                                            <div class="w-full h-2 bg-slate-200/80 rounded-full"></div>
+                                            <div class="w-1/2 h-2 bg-slate-300/80 rounded-full"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Floating element -->
+                            <div
+                                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md px-4 py-3 sm:px-6 sm:py-4 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-3 sm:gap-4 max-w-[92%] sm:max-w-none">
+                                <div
+                                    class="w-10 h-10 sm:w-12 sm:h-12 bg-[#5a83c7] rounded-full flex items-center justify-center text-white shadow-md shadow-[#5a83c7]/30 shrink-0">
+                                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24" stroke-width="3">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="text-xs sm:text-sm font-semibold text-slate-900 whitespace-nowrap">
+                                        Проект запущен</div>
+                                    <div class="text-[11px] sm:text-xs text-[#5a83c7] font-semibold whitespace-nowrap">
+                                        Конверсия +45%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Блок портфолио (Проекты) -->
+        <section id="portfolio"
+            class="py-16 sm:py-20 md:py-24 bg-white/60 backdrop-blur-sm border-y border-white/80 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                <div class="max-w-2xl mb-10 sm:mb-12">
+                    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 mb-4">Избранные работы</h2>
+                    <p class="text-slate-600 text-sm sm:text-base">Мы создаем веб-продукты, которые не только эстетично
+                        выглядят, но и решают
+                        конкретные задачи бизнеса.</p>
+                </div>
+
+                <!-- Grid-сетка из 3 проектов (1 колонка на смартфонах, 2 на планшетах, 3 на больших экранах) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+
+                    <!-- Карточка 1: Fix-House -->
+                    <a href="https://fixhouse.onrender.com" target="_blank" rel="noopener noreferrer"
+                        class="portfolio-item group block cursor-pointer bg-white/80 p-4 sm:p-5 rounded-3xl border border-white shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 ease-out">
+                        <div
+                            class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 mb-5 border border-slate-200/60">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-slate-950/20 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+                            <!-- Результат -->
+                            <div
+                                class="absolute top-4 right-4 z-20 px-3 py-1.5 bg-white/95 backdrop-blur-sm text-slate-900 rounded-full text-xs font-semibold shadow-sm flex items-center gap-1.5 transform translate-y-[-10px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                                <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M13 7h8v8M21 7l-8 8-4-4-6 6" />
+                                </svg>
+                                +80% продаж
+                            </div>
+                            <!-- Изображение -->
+                            <img src="Z:\portfolio\fix-house.jpg"
+                                alt="Кейс Fix-House — разработка сайта для мастерской по ремонту техники" loading="lazy"
+                                decoding="async"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
+                        </div>
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <h3
+                                    class="text-xl font-bold text-slate-900 mb-1 group-hover:text-[#5a83c7] transition-colors duration-300">
+                                    Fix-House</h3>
+                                <p class="text-sm text-slate-500 mb-3">Сайт для мастерской по ремонту техники</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-2.5 py-1 bg-slate-100 border border-slate-200 text-slate-700 rounded-md text-xs font-medium">Next.js</span>
+                            <span
+                                class="px-2.5 py-1 bg-slate-100 border border-slate-200 text-slate-700 rounded-md text-xs font-medium">Shopify
+                                API</span>
+                            <span
+                                class="px-2.5 py-1 bg-slate-100 border border-slate-200 text-slate-700 rounded-md text-xs font-medium">Tailwind</span>
+                        </div>
+                    </a>
+
+                    <!-- Карточка 2: SweetArt -->
+                    <a href="https://test-nqqj.onrender.com" target="_blank" rel="noopener noreferrer"
+                        class="portfolio-item group block cursor-pointer bg-white/80 p-4 sm:p-5 rounded-3xl border border-white shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 ease-out">
+                        <div
+                            class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 mb-5 border border-slate-200/60">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-slate-950/20 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+                            <div
+                                class="absolute top-4 right-4 z-20 px-3 py-1.5 bg-white/95 backdrop-blur-sm text-slate-900 rounded-full text-xs font-semibold shadow-sm flex items-center gap-1.5 transform translate-y-[-10px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                                <svg class="w-3.5 h-3.5 text-[#5a83c7]" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                                </svg>
+                                x2 удержание
+                            </div>
+                            <!-- Изображение -->
+                            <img src="Z:\portfolio\SweetArt.jpg" alt="Кейс SweetArt — разработка сайта для кондитерской"
+                                loading="lazy" decoding="async"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
+                        </div>
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <h3
+                                    class="text-xl font-bold text-slate-900 mb-1 group-hover:text-[#5a83c7] transition-colors duration-300">
+                                    Кейс SweetArt</h3>
+                                <p class="text-sm text-slate-500 mb-3">Сайт для кондитерской</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-2.5 py-1 bg-slate-100 border border-slate-200 text-slate-700 rounded-md text-xs font-medium">React</span>
+                            <span
+                                class="px-2.5 py-1 bg-slate-100 border border-slate-200 text-slate-700 rounded-md text-xs font-medium">Web3.js</span>
+                            <span
+                                class="px-2.5 py-1 bg-slate-100 border border-slate-200 text-slate-700 rounded-md text-xs font-medium">Figma</span>
+                        </div>
+                    </a>
+
+                    <!-- Карточка 3: AirSoftLab -->
+                    <a href="https://airsoft-j3md.onrender.com" target="_blank" rel="noopener noreferrer"
+                        class="portfolio-item group block cursor-pointer bg-white/80 p-4 sm:p-5 rounded-3xl border border-white shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 ease-out">
+                        <div
+                            class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 mb-5 border border-slate-200/60">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-slate-950/20 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+                            <div
+                                class="absolute top-4 right-4 z-20 px-3 py-1.5 bg-white/95 backdrop-blur-sm text-slate-900 rounded-full text-xs font-semibold shadow-sm flex items-center gap-1.5 transform translate-y-[-10px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                                <svg class="w-3.5 h-3.5 text-purple-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15 15l-2 5-3-3-4 3 2-7-5-2 12-4-2 8zM9 9l3 3" />
+                                </svg>
+                                12% CTR
+                            </div>
+                            <!-- Изображение -->
+                            <img src="Z:\portfolio\AirSoftLab.jpg"
+                                alt="Кейс AirSoftLab — разработка сайта для мастерской страйкбольного снаряжения"
+                                loading="lazy" decoding="async"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
+                        </div>
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <h3
+                                    class="text-xl font-bold text-slate-900 mb-1 group-hover:text-[#5a83c7] transition-colors duration-300">
+                                    AirSoftLab</h3>
+                                <p class="text-sm text-slate-500 mb-3">Сайт для мастерской по ремонту страйкбольного
+                                    снаряжения</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-2.5 py-1 bg-slate-100 border border-slate-200 text-slate-700 rounded-md text-xs font-medium">Vue.js</span>
+                            <span
+                                class="px-2.5 py-1 bg-slate-100 border border-slate-200 text-slate-700 rounded-md text-xs font-medium">GSAP</span>
+                        </div>
+                    </a>
+
+                </div>
+
+                <!-- Общее уведомление о VPN и времени загрузки (Обновленный блок) -->
+                <div
+                    class="mt-8 max-w-3xl mx-auto p-4 sm:p-4.5 rounded-2xl bg-orange-300 text-white font-medium text-xs sm:text-sm flex items-start sm:items-center justify-center gap-3.5 backdrop-blur-md shadow-lg shadow-orange-00/25 border border-orange-300/30">
+                    <div
+                        class="w-8 h-8 rounded-xl bg-orange-300 text-white items-center justify-center shrink-0 shadow-sm">
+                        <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                    </div>
+                    <span class="leading-relaxed text-center sm:text-left text-white">
+                        В связи с неполадками сайты открываются только с <span
+                            class="font-bold underline decoration-white/50">VPN</span>. При первом открытии подождите
+                        20–30 секунд.
+                    </span>
+                </div>
+
+                <div class="mt-12 sm:mt-16 text-center">
+                    <a href="#contact"
+                        class="inline-flex items-center gap-2 px-8 py-3.5 text-sm font-semibold text-[#5a83c7] bg-white border border-[#5a83c7]/30 rounded-full hover:bg-[#5a83c7] hover:text-white hover:scale-105 active:scale-95 transition-all duration-300 shadow-sm">
+                        Хотите похожий проект?
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Услуги и условия работы -->
+        <section id="services" class="py-16 sm:py-20 md:py-24 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+
+                <div class="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 mb-4">Комплексный подход
+                    </h2>
+                    <p class="text-slate-600 text-sm sm:text-base">Закрываем все задачи: от первого прототипа до релиза
+                        и поддержки. Работаем
+                        прозрачно и на результат.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 sm:gap-8 items-stretch">
+                    <!-- Левая колонка: Услуги (1 колонка на смартфонах, 2 на планшетах/десктопе) -->
+                    <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+                        <!-- Услуга 1 -->
+                        <div
+                            class="group bg-white/80 p-6 sm:p-8 rounded-3xl border border-white shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out flex flex-col">
+                            <div
+                                class="w-12 h-12 bg-[#5a83c7]/10 border border-[#5a83c7]/20 rounded-2xl flex items-center justify-center mb-6 text-[#5a83c7] group-hover:scale-110 group-hover:bg-[#5a83c7] group-hover:text-white transition-all duration-300">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <path d="M3 9h18M9 21V9" />
+                                </svg>
+                            </div>
+                            <h3
+                                class="text-lg font-bold text-slate-900 mb-2 group-hover:text-[#5a83c7] transition-colors duration-300">
+                                Сайты под ключ</h3>
+                            <p class="text-sm text-slate-500 leading-relaxed mb-6">Корпоративные сайты, сложные лендинги
+                                и e-commerce проекты с высокой конверсией.</p>
+                            <div class="flex flex-wrap gap-2 mt-auto">
+                                <span
+                                    class="text-[11px] font-semibold tracking-wider uppercase text-slate-400">Next.js</span>
+                                <span
+                                    class="text-[11px] font-semibold tracking-wider uppercase text-slate-400">Vue</span>
+                                <span
+                                    class="text-[11px] font-semibold tracking-wider uppercase text-slate-400">Webflow</span>
+                            </div>
+                        </div>
+
+                        <!-- Услуга 2 -->
+                        <div
+                            class="group bg-white/80 p-6 sm:p-8 rounded-3xl border border-white shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out flex flex-col">
+                            <div
+                                class="w-12 h-12 bg-[#5a83c7]/10 border border-[#5a83c7]/20 rounded-2xl flex items-center justify-center mb-6 text-[#5a83c7] group-hover:scale-110 group-hover:bg-[#5a83c7] group-hover:text-white transition-all duration-300">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    stroke-width="2">
+                                    <path
+                                        d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5zM12 2h3.5a3.5 3.5 0 1 1 0 7H12V2zM12 16.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0zM5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5zM5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0z" />
+                                </svg>
+                            </div>
+                            <h3
+                                class="text-lg font-bold text-slate-900 mb-2 group-hover:text-[#5a83c7] transition-colors duration-300">
+                                UI/UX Дизайн</h3>
+                            <p class="text-sm text-slate-500 leading-relaxed mb-6">Проектирование интерфейсов,
+                                дизайн-системы и CJM для максимального удобства пользователей.</p>
+                            <div class="flex flex-wrap gap-2 mt-auto">
+                                <span
+                                    class="text-[11px] font-semibold tracking-wider uppercase text-slate-400">Figma</span>
+                                <span
+                                    class="text-[11px] font-semibold tracking-wider uppercase text-slate-400">Prototyping</span>
+                            </div>
+                        </div>
+
+                        <!-- Услуга 3 -->
+                        <div
+                            class="group bg-white/80 p-6 sm:p-8 rounded-3xl border border-white shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out sm:col-span-2">
+                            <div class="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+                                <div
+                                    class="w-12 h-12 shrink-0 bg-[#5a83c7]/10 border border-[#5a83c7]/20 rounded-2xl flex items-center justify-center text-[#5a83c7] group-hover:scale-110 group-hover:bg-[#5a83c7] group-hover:text-white transition-all duration-300">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                        stroke-width="2">
+                                        <rect x="2" y="2" width="20" height="8" rx="2" />
+                                        <rect x="2" y="14" width="20" height="8" rx="2" />
+                                        <line x1="6" y1="6" x2="6.01" y2="6" />
+                                        <line x1="6" y1="18" x2="6.01" y2="18" />
+                                        <circle cx="12" cy="12" r="2" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3
+                                        class="text-lg font-bold text-slate-900 mb-2 group-hover:text-[#5a83c7] transition-colors duration-300">
+                                        Frontend & Backend</h3>
+                                    <p class="text-sm text-slate-500 leading-relaxed">Разработка сложных веб-приложений,
+                                        API, интеграция с CRM, платежными шлюзами и сервисами.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Правая колонка: Условия (Серо-голубая карточка) -->
+                    <div
+                        class="lg:col-span-2 bg-[#5a83c7] border border-white/40 text-white p-6 sm:p-8 rounded-3xl relative overflow-hidden flex flex-col justify-between shadow-lg shadow-[#5a83c7]/20">
+                        <!-- Декор -->
+                        <div
+                            class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3 pointer-events-none">
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-bold mb-8 relative z-10 text-white">Прозрачный формат работы</h3>
+
+                            <ul class="space-y-6 relative z-10">
+                                <li class="flex gap-4">
+                                    <div
+                                        class="mt-1 w-6 h-6 shrink-0 rounded-full bg-white/20 border border-white/30 flex items-center justify-center">
+                                        <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-base mb-1 text-white">Фиксированная цена и сроки
+                                        </h4>
+                                        <p class="text-sm text-white/80">Оценка в договоре не меняется в процессе
+                                            работы.
+                                            Сдаем этапы точно в срок.</p>
+                                    </div>
+                                </li>
+                                <li class="flex gap-4">
+                                    <div
+                                        class="mt-1 w-6 h-6 shrink-0 rounded-full bg-white/20 border border-white/30 flex items-center justify-center">
+                                        <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-base mb-1 text-white">Работа по спринтам</h4>
+                                        <p class="text-sm text-white/80">Демонстрируем результат каждую неделю. Вы
+                                            всегда в
+                                            курсе статуса проекта.</p>
+                                    </div>
+                                </li>
+                                <li class="flex gap-4">
+                                    <div
+                                        class="mt-1 w-6 h-6 shrink-0 rounded-full bg-white/20 border border-white/30 flex items-center justify-center">
+                                        <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24" stroke-width="2.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-base mb-1 text-white">Поддержка после запуска</h4>
+                                        <p class="text-sm text-white/80">Гарантийное обслуживание и развитие проекта
+                                            после
+                                            успешного релиза.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <a href="#contact"
+                            class="mt-8 inline-flex items-center justify-between w-full px-6 py-4 bg-white text-slate-900 rounded-2xl font-semibold hover:bg-slate-100 hover:shadow-md transition-all duration-300 group shadow-sm">
+                            Обсудить формат
+                            <svg class="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Прямые контакты (Без формы) -->
+        <section id="contact" class="py-16 sm:py-20 md:py-24 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                <div
+                    class="bg-white/70 backdrop-blur-md rounded-3xl sm:rounded-[2.5rem] lg:rounded-[3rem] p-6 sm:p-10 md:p-14 lg:p-16 xl:p-20 border border-white shadow-xl text-center">
+
+                    <h2
+                        class="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight text-slate-900 mb-4 sm:mb-6 leading-tight">
+                        Готовы запустить свой проект?
+                    </h2>
+                    <p
+                        class="text-slate-600 mb-10 sm:mb-12 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+                        Напишите нам в мессенджеры или на почту. Мы ответим в течение часа, обсудим вашу задачу и
+                        подготовим примерную оценку.
+                    </p>
+
+                    <!-- Сетка контактов: 2 Telegram и 2 Email (1 колонка на смартфонах, 2 на планшетах, 4 на десктопе) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 text-left">
+
+                        <!-- Telegram 1 -->
+                        <a href="https://t.me/zgrstnk_01" target="_blank" rel="noopener noreferrer"
+                            class="group block bg-white p-6 rounded-3xl border border-slate-100 hover:border-[#5a83c7]/40 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out flex flex-col justify-between cursor-pointer">
+                            <div>
+                                <div
+                                    class="w-12 h-12 rounded-2xl border border-[#5a83c7]/20 flex items-center justify-center bg-[#5a83c7]/10 text-[#5a83c7] group-hover:bg-[#5a83c7] group-hover:text-white transition-all duration-300 mb-6 shadow-sm">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                        stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                                    </svg>
+                                </div>
+                                <div class="text-xs uppercase font-semibold text-slate-400 tracking-wider mb-1">Telegram
+                                    (Тим-лид)</div>
+                                <div
+                                    class="text-base font-bold text-slate-900 group-hover:text-[#5a83c7] transition-colors duration-300 break-words">
+                                    @zgrstnk_01</div>
+                            </div>
+                            <div class="mt-6 flex items-center text-xs font-semibold text-[#5a83c7] gap-1">
+                                Быстрый ответ
+                                <svg class="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform duration-300"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
+                            </div>
+                        </a>
+
+                        <!-- Telegram 2 -->
+                        <a href="https://t.me/Kakpomenyatimya" target="_blank" rel="noopener noreferrer"
+                            class="group block bg-white p-6 rounded-3xl border border-slate-100 hover:border-[#5a83c7]/40 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out flex flex-col justify-between cursor-pointer">
+                            <div>
+                                <div
+                                    class="w-12 h-12 rounded-2xl border border-[#5a83c7]/20 flex items-center justify-center bg-[#5a83c7]/10 text-[#5a83c7] group-hover:bg-[#5a83c7] group-hover:text-white transition-all duration-300 mb-6 shadow-sm">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                        stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                                    </svg>
+                                </div>
+                                <div class="text-xs uppercase font-semibold text-slate-400 tracking-wider mb-1">Telegram
+                                    (Арт-директор)</div>
+                                <div
+                                    class="text-base font-bold text-slate-900 group-hover:text-[#5a83c7] transition-colors duration-300 break-words">
+                                    @Kakpomenyatimya</div>
+                            </div>
+                            <div class="mt-6 flex items-center text-xs font-semibold text-[#5a83c7] gap-1">
+                                Личная консультация
+                                <svg class="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform duration-300"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
+                            </div>
+                        </a>
+
+                        <!-- Email 1 -->
+                        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=udzin216@gmail.com" target="_blank"
+                            rel="noopener noreferrer" onclick="handleEmailCardClick(event, 'udzin216@gmail.com')"
+                            class="group bg-white p-6 rounded-3xl border border-slate-100 hover:border-[#5a83c7]/40 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out flex flex-col justify-between cursor-pointer"
+                            aria-label="Написать на почту udzin216@gmail.com">
+                            <div>
+                                <div class="flex items-center justify-between mb-6">
+                                    <div
+                                        class="w-12 h-12 rounded-2xl border border-[#5a83c7]/20 flex items-center justify-center bg-[#5a83c7]/10 text-[#5a83c7] group-hover:bg-[#5a83c7] group-hover:text-white transition-all duration-300 shadow-sm">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                            stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <span
+                                        class="text-[11px] font-semibold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-full group-hover:bg-[#5a83c7]/10 group-hover:text-[#5a83c7] transition-colors">
+                                        Gmail ↗
+                                    </span>
+                                </div>
+                                <div class="text-xs uppercase font-semibold text-slate-400 tracking-wider mb-1">Email
+                                    (Брифы и проекты)</div>
+                                <div
+                                    class="text-base font-bold text-slate-900 group-hover:text-[#5a83c7] transition-colors duration-300 break-words">
+                                    udzin216@gmail.com</div>
+                            </div>
+                            <div class="mt-6 flex flex-col gap-2">
+                                <div class="flex items-center text-xs font-semibold text-[#5a83c7] gap-1">
+                                    Написать в Gmail
+                                    <svg class="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform duration-300"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
+                                </div>
+                                <button type="button" onclick="triggerMailto(event, 'udzin216@gmail.com')"
+                                    class="text-[11px] text-slate-400 hover:text-slate-600 underline decoration-dotted text-left transition-colors">
+                                    Или через почтовый клиент (mailto)
+                                </button>
+                            </div>
+                        </a>
+
+                        <!-- Email 2 -->
+                        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=medyfdut@gmail.com" target="_blank"
+                            rel="noopener noreferrer" onclick="handleEmailCardClick(event, 'medyfdut@gmail.com')"
+                            class="group bg-white p-6 rounded-3xl border border-slate-100 hover:border-[#5a83c7]/40 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out flex flex-col justify-between cursor-pointer"
+                            aria-label="Написать на почту medyfdut@gmail.com">
+                            <div>
+                                <div class="flex items-center justify-between mb-6">
+                                    <div
+                                        class="w-12 h-12 rounded-2xl border border-[#5a83c7]/20 flex items-center justify-center bg-[#5a83c7]/10 text-[#5a83c7] group-hover:bg-[#5a83c7] group-hover:text-white transition-all duration-300 mb-0 shadow-sm">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                            stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <span
+                                        class="text-[11px] font-semibold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-full group-hover:bg-[#5a83c7]/10 group-hover:text-[#5a83c7] transition-colors">
+                                        Gmail ↗
+                                    </span>
+                                </div>
+                                <div class="text-xs uppercase font-semibold text-slate-400 tracking-wider mb-1">Email
+                                    (Партнерство)</div>
+                                <div
+                                    class="text-base font-bold text-slate-900 group-hover:text-[#5a83c7] transition-colors duration-300 break-words">
+                                    medyfdut@gmail.com</div>
+                            </div>
+                            <div class="mt-6 flex flex-col gap-2">
+                                <div class="flex items-center text-xs font-semibold text-[#5a83c7] gap-1">
+                                    Сотрудничество в Gmail
+                                    <svg class="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform duration-300"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
+                                </div>
+                                <button type="button" onclick="triggerMailto(event, 'medyfdut@gmail.com')"
+                                    class="text-[11px] text-slate-400 hover:text-slate-600 underline decoration-dotted text-left transition-colors">
+                                    Или через почтовый клиент (mailto)
+                                </button>
+                            </div>
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Подвал (Footer) -->
+    <footer class="bg-white/80 backdrop-blur-md border-t border-slate-200/80 py-10 sm:py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <!-- Лого -->
+                <a href="#" class="flex items-center gap-2.5 group">
+                    <div
+                        class="w-8 h-8 bg-[#5a83c7] border border-white/40 rounded-xl flex items-center justify-center text-white shadow-sm group-hover:bg-[#4368ab] group-hover:scale-105 transition-all duration-300">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                        </svg>
+                    </div>
+                    <span
+                        class="font-bold text-xl tracking-tight text-slate-900 group-hover:text-slate-950 transition-colors duration-200">Twiner.</span>
+                </a>
+
+                <!-- Копирайт и ссылки -->
+                <div
+                    class="flex flex-col sm:flex-row items-center gap-4 text-sm text-slate-500 text-center sm:text-left">
+                    <span>&copy; 2024 Twiner Studio. Все права защищены.</span>
+                    <span class="hidden sm:inline">•</span>
+                    <a href="#" class="hover:text-[#5a83c7] transition-colors duration-200">Политика
+                        конфиденциальности</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Скрипт переключения мобильного меню -->
+    <script>
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const iconMenu = document.getElementById('icon-menu');
+        const iconClose = document.getElementById('icon-close');
+
+        function toggleMenu() {
+            const isHidden = mobileMenu.classList.toggle('hidden');
+            iconMenu.classList.toggle('hidden', !isHidden);
+            iconClose.classList.toggle('hidden', isHidden);
+            menuBtn.setAttribute('aria-expanded', !isHidden);
+        }
+
+        function closeMenu() {
+            mobileMenu.classList.add('hidden');
+            iconMenu.classList.remove('hidden');
+            iconClose.classList.add('hidden');
+            menuBtn.setAttribute('aria-expanded', 'false');
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+
+        // Закрытие мобильного меню при клике вне его области
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target) && !mobileMenu.classList.contains('hidden')) {
+                closeMenu();
+            }
+        });
+
+        // Закрытие мобильного меню при растягивании окна до десктопного размера
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768 && !mobileMenu.classList.contains('hidden')) {
+                closeMenu();
+            }
+        });
+
+        // Всплывающее Toast-уведомление
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            if (!toast || !toastMsg) return;
+
+            toastMsg.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            }, 4000);
+        }
+
+        // Копирование адреса в буфер обмена
+        function copyEmailToClipboard(email) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(email).catch(() => { });
+            } else {
+                const tempInput = document.createElement('textarea');
+                tempInput.value = email;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                try { document.execCommand('copy'); } catch (e) { }
+                document.body.removeChild(tempInput);
+            }
+        }
+
+        // Обработка клика по Email-карточке
+        function handleEmailCardClick(event, email) {
+            copyEmailToClipboard(email);
+
+            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+            if (isMobile) {
+                // На смартфонах перенаправляем на системную почту (Apple Mail / Gmail app)
+                event.preventDefault();
+                showToast(`Открываем почту... (${email} в буфере)`);
+                window.location.href = `mailto:${email}`;
+            } else {
+                // На ПК открывается вкладка Gmail compose, и всплывает уведомление
+                showToast(`Email ${email} скопирован в буфер! Открываем Gmail...`);
+            }
+        }
+
+        // Принудительный запуск локального клиента mailto
+        function triggerMailto(event, email) {
+            event.preventDefault();
+            event.stopPropagation();
+            copyEmailToClipboard(email);
+            showToast(`Запуск почтовой программы для ${email}`);
+            window.location.href = `mailto:${email}`;
+        }
+    </script>
+
+    <!-- Плавающее Toast-уведомление -->
+    <div id="toast"
+        class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900/95 text-white px-5 py-3.5 rounded-2xl shadow-2xl backdrop-blur-md flex items-center gap-3 border border-white/10 text-sm max-w-md">
+        <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+        </div>
+        <span id="toast-message" class="font-medium text-slate-100"></span>
+    </div>
+</body>
+
+</html>
